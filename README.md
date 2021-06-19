@@ -19,6 +19,7 @@ WEB批量请求器（WebBatchRequest）是对目标地址批量进行快速的�
 - [x] 如果有什么建议需求可以在ISSUES提出来
 
 #### 效果
+##### v1.0
 ![image-20210613213901838](https://user-images.githubusercontent.com/62375108/121810154-43388080-cc92-11eb-860a-88b144a4da80.png)
 
 ![image-20210613213932554](https://user-images.githubusercontent.com/62375108/121810164-49c6f800-cc92-11eb-92f7-ef1a9c13c501.png)
@@ -27,6 +28,8 @@ WEB批量请求器（WebBatchRequest）是对目标地址批量进行快速的�
 
 ![image-20210613214005557](https://user-images.githubusercontent.com/62375108/121810169-4fbcd900-cc92-11eb-9f41-5c19c37b7ecb.png)
 
+##### v1.1
+![image](https://user-images.githubusercontent.com/62375108/122634944-a0f61e00-d113-11eb-9e29-cf730ea5f52b.png)
 
 #### 项目地址
 
