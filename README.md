@@ -27,7 +27,10 @@ WEB批量请求器（WebBatchRequest）是对目标地址批量进行快速的�
 ```
 https://github.com/ScriptKid-Beta/WebBatchRequest
 ```
-
+#### Jar文件
+```
+https://github.com/ScriptKid-Beta/WebBatchRequest/releases
+```
 #### 最后
 
 欢迎师傅star，最重要的是如果师傅们有什么建议或者Bug，请在ISSUES里提出来~
