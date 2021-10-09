@@ -18,11 +18,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Gui extends JFrame {
-    private JTextField uaText,dataText;
+    private JTextField uaText,dataText, targetsPathText;
     private JMenuBar fileMenu,helpMenu,proxyMenu;
     private JMenuItem importTargetsMenuItem,exportMenuItem,aboutMenuItem,httpMenuItem;
     private JPanel topPanel, westPanel, eastPanel;
-    private JLabel targetsLabel,cookiesLabel,uaLabel,dataLabel,headLabel,countLabel;
+    private JLabel targetsLabel, pathLabel,cookiesLabel,uaLabel,dataLabel,headLabel,countLabel;
     private JButton runButton,stopButton,clearButton;
     private JComboBox threadBox,enctypeBox;
     private JTextArea targetsTextArea,headTextArea,cookiesTextArea;
@@ -87,7 +87,8 @@ public class Gui extends JFrame {
             westPanel.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
 
             // 左部面板组件
-            targetsLabel = new JLabel("targets:");
+            targetsLabel = new JLabel("targets:                                          ");
+            pathLabel = new JLabel("/");
             headLabel = new JLabel("自定义Header:");
             cookiesLabel = new JLabel("自定义Cookies:");
             uaLabel = new JLabel("自定义User-Agent:");
@@ -108,23 +109,26 @@ public class Gui extends JFrame {
 
             threadBox = new JComboBox();
             threadBox.addItem("--请选择线程--");
+            threadBox.addItem("1");
             threadBox.addItem("5");
             threadBox.addItem("25");
             threadBox.addItem("50");
             threadBox.addItem("75");
             threadBox.addItem("100");
-            targetsTextArea = new JTextArea(8,50);
+            targetsTextArea = new JTextArea(8,40);
             targetsTextArea.addFocusListener(new DefaultTextarea("https://www.baidu.com\nhttps://www.qq.com\nhttps://www.sina.com.cn/\nhttp://weather.sina.com.cn\nhttps://www.nday.top\n",targetsTextArea));
             targetsScroll = new JScrollPane(targetsTextArea);
 
-            headTextArea = new JTextArea(2,50);
+            targetsPathText = new JTextField(9);
+            targetsPathText.addFocusListener(new DefaultText("默认为空", targetsPathText));
+
+            headTextArea = new JTextArea(2,51);
             headTextArea.addFocusListener(new DefaultTextarea("X-Forwarded-for: 127.0.0.1\nReferer: ...",headTextArea));
 
-            cookiesTextArea = new JTextArea(2,50);
+            cookiesTextArea = new JTextArea(2,51);
             cookiesTextArea.addFocusListener(new DefaultTextarea("SESSION=A202106084F2...",cookiesTextArea));
 
-            uaText = new JTextField("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",50);
-
+            uaText = new JTextField("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",51);
             //自动换行
             targetsTextArea.setLineWrap(true);
             cookiesTextArea.setLineWrap(true);
@@ -141,7 +145,7 @@ public class Gui extends JFrame {
             followBox = new JCheckBox("是否跟随302跳转");
 
             dataLabel=new JLabel("post_data:");
-            dataText = new JTextField("",50);
+            dataText = new JTextField("",51);
 
             dataText.setEditable(false);
 
@@ -151,14 +155,17 @@ public class Gui extends JFrame {
             enctypeBox.addItem("multipart/form-data");
             enctypeBox.setEnabled (false);
 
-//            JButton c=new JButton("                                                     "
+            // 填充换行保持布局
+//            JButton padding=new JButton("                                                     "
 //                    +"                               "+"                               ");
-//            c.setContentAreaFilled(false);
-//            c.setBorderPainted(false);
-//            c.setEnabled(false);
+//            padding.setContentAreaFilled(false);
+//            padding.setBorderPainted(false);
+//            padding.setEnabled(false);
             // 组件添加到左部面板中
             westPanel.add(targetsLabel);
             westPanel.add(targetsScroll);
+            westPanel.add(pathLabel);
+            westPanel.add(targetsPathText);
 
             westPanel.add(headLabel);
             westPanel.add(headTextArea);
@@ -271,22 +278,56 @@ public class Gui extends JFrame {
                     String uaBody = uaText.getText();
                     String[] str = targetsBody.split("\n");
                     String headBody = headTextArea.getText();
-                    // 多少个目标
-                    total = str.length;
+                    String targetsPathBody = targetsPathText.getText();
+//                    String targetsBody3 = targetsBody2 == "默认为空" ? "":targetsBody2;
+//                    System.out.println(targetsBody3);
+
                     // 数据处理 看用户是否输入的只是域名
                     ArrayList<String> str2 = new ArrayList<>();
+//                    for (String target : str) {
+//                        if (target.startsWith("http://") || target.startsWith("https://"))
+//                        {   if (targetsPathBody.equals("默认为空")){
+//                            str2.add(target);
+//                        }else {
+//                            str2.add(target+"/"+targetsPathBody);
+//                        }
+//                        }else {
+//                            if (targetsPathBody.equals("默认为空")){
+//                            str2.add("https://"+target);
+//                            str2.add("http://"+target);
+//                            } else {
+//                            str2.add("https://"+target+"/"+targetsPathBody);
+//                            str2.add("http://"+target+"/"+targetsPathBody);
+//                            }
+//                        }
+//                    }
+                    if (targetsPathBody.equals("默认为空")){
                     for (String target : str) {
                         if (target.startsWith("http://") || target.startsWith("https://"))
                         {
                             str2.add(target);
-                        }else {
+                        }
+                        else {
                             str2.add("https://"+target);
                             str2.add("http://"+target);
                         }
                     }
+                    }else {
+                        for (String target : str) {
+                            if (target.startsWith("http://") || target.startsWith("https://"))
+                            {
+                                str2.add(target+"/"+targetsPathBody);
+                            }
+                            else {
+                                str2.add("https://"+target+"/"+targetsPathBody);
+                                str2.add("http://"+target+"/"+targetsPathBody);
+                            }
+                        } }
+                    // 多少个目标
+                    total = str2.size();
+
                     // 判断用什么方式请求
                     if (postRadio.isSelected()){
-                        System.out.println("post.....");
                         String dataBody = dataText.getText();
                         Object enctypeBody = enctypeBox.getSelectedItem();
                         httpData(str2,cookiesBody,uaBody,headBody,"post",dataBody,enctypeBody.toString());
@@ -635,7 +676,7 @@ public class Gui extends JFrame {
     class about implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            JOptionPane.showMessageDialog(null, "WEB批量请求器 \nVersion 1.2\nAuthor：@xiaowei\nCopyright 2021", "关于",JOptionPane.WARNING_MESSAGE);//弹框提示
+            JOptionPane.showMessageDialog(null, "WEB批量请求器 \nVersion 1.3\nAuthor：@xiaowei\nGithub: https://github.com/ScriptKid-Beta/WebBatchRequest\nCopyright 2021", "关于",JOptionPane.WARNING_MESSAGE);//弹框提示
         }
     }
 
