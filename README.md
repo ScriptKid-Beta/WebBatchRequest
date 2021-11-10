@@ -8,7 +8,7 @@ WEB批量请求器（WebBatchRequest）是对目标地址批量进行快速的�
 - [x] 支持数据的导入、导出
 - [x] GET、POST、HEAD请求
 - [x] HTTP代理
-- [x] 自定义Header
+- [x] 自定义Header(可Host头碰撞等)
 - [x] 自定义Cookies
 - [x] 自定义User-Agent
 - [x] 跟随302跳转
@@ -24,6 +24,8 @@ WEB批量请求器（WebBatchRequest）是对目标地址批量进行快速的�
 ![image](https://user-images.githubusercontent.com/62375108/122643506-ba628e80-d142-11eb-9315-9efc8445d203.png)
 ##### v1.3
 ![image](https://user-images.githubusercontent.com/62375108/126460021-a7bd55ff-6b6e-4c2b-8e07-cae0261a1c83.png)
+##### v1.4
+![image](https://user-images.githubusercontent.com/62375108/141076363-7b07b391-83b5-45cd-85c0-cc074ec87028.png)
 
 
 #### 项目地址
