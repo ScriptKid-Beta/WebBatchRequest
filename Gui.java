@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.webRequest.Re.getSingle;
+
 public class Gui extends JFrame {
     private JTextField uaText,dataText, targetsPathText;
     private JMenuBar fileMenu,helpMenu,proxyMenu;
@@ -323,6 +325,8 @@ public class Gui extends JFrame {
                                 str2.add("http://"+target+"/"+targetsPathBody);
                             }
                         } }
+                    //去重操作
+                    str2=getSingle(str2);
                     // 多少个目标
                     total = str2.size();
 
